@@ -1,0 +1,15 @@
+//Custom error handler we put in an error and next 
+const errorHandler = (error,req,res,next) => {
+    //status code is set before we throw an error using res.satatus(w/e num)
+    // use res.status code if it's there else set it to 500 (server error)
+    console.log(`The status code : ${res.statusCode}`);
+    const statusCode = res.statusCode ? res.statusCode : 500
+    res.status(statusCode)
+    res.json({
+        message: error.message,
+        //Send the stack trace if we are not in production
+        stack: process.env.NODE_ENV === 'production' ? null : error.stack
+    })
+
+}
+module.exports = errorHandler
